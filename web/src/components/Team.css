@@ -4,11 +4,7 @@
 .team {
   padding: 100px 60px;
   text-align: center;
-  background: radial-gradient(
-    circle at top,
-    var(--bg-accent),
-    var(--bg-main)
-  );
+    background: radial-gradient(circle at top, #c8bbc6, 5px solid #f83838);
 }
 
 /* =========================

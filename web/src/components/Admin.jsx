@@ -2,9 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Admin.css";
 
-/* 🔑 BACKEND BASE URL */
-const API_BASE = import.meta.env.VITE_API_URL;
-
 function Admin() {
   const navigate = useNavigate();
 
@@ -14,95 +11,75 @@ function Admin() {
 
   const [currentFile, setCurrentFile] = useState("");
   const [file, setFile] = useState(null);
-
   const [message, setMessage] = useState("");
-  const [messageType, setMessageType] = useState(""); // success | error
-  const [uploading, setUploading] = useState(false); // 🔑 LOADING STATE
 
-  /* =====================
-     LOGIN
-  ===================== */
+  // =====================
+  // LOGIN
+  // =====================
   const login = (e) => {
     e.preventDefault();
     setMessage("");
 
-    fetch(`${API_BASE}/api/login`, {
+    fetch("http://localhost:5000/api/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password })
     })
       .then((res) => {
-        if (!res.ok) throw new Error();
+        if (!res.ok) throw new Error("Invalid login");
         setLoggedIn(true);
       })
-      .catch(() => {
-        setMessage("Invalid username or password.");
-        setMessageType("error");
-      });
+      .catch(() => setMessage("Invalid username or password"));
   };
 
-  /* =====================
-     FETCH CURRENT FILE
-  ===================== */
+  // =====================
+  // FETCH CURRENT FILE
+  // =====================
   useEffect(() => {
     if (!loggedIn) return;
 
-    fetch(`${API_BASE}/api/admin/current-file`)
-      .then(res => res.json())
-      .then(data => setCurrentFile(data.file));
+    fetch("http://localhost:5000/api/admin/current-file")
+      .then((res) => res.json())
+      .then((data) => setCurrentFile(data.file));
   }, [loggedIn]);
 
-  /* =====================
-     UPLOAD EXCEL
-  ===================== */
+  // =====================
+  // UPLOAD EXCEL
+  // =====================
   const uploadExcel = (e) => {
     e.preventDefault();
     if (!file) return;
 
-    setUploading(true);
-    setMessage("");
-    setMessageType("");
-
     const formData = new FormData();
     formData.append("file", file);
 
-    fetch(`${API_BASE}/api/admin/upload-excel`, {
+    fetch("http://localhost:5000/api/admin/upload-excel", {
       method: "POST",
       body: formData
     })
-      .then(res => {
-        if (!res.ok) throw new Error();
-        return res.json();
-      })
-      .then(() => {
-        setMessage("Excel file updated successfully. The database is now refreshed.");
-        setMessageType("success");
+      .then((res) => res.json())
+      .then((data) => {
+        setMessage(data.message);
         setCurrentFile(file.name);
         setFile(null);
       })
-      .catch(() => {
-        setMessage("Upload failed. Please verify the Excel format and try again.");
-        setMessageType("error");
-      })
-      .finally(() => {
-        setUploading(false);
-      });
+      .catch(() => setMessage("Upload failed"));
   };
 
-  /* =====================
-     LOGOUT
-  ===================== */
+  // =====================
+  // LOGOUT
+  // =====================
   const logout = () => {
     setLoggedIn(false);
     setUsername("");
     setPassword("");
     setMessage("");
-    navigate("/");
+    navigate("/"); // 🔁 redirect to main page
   };
 
-  /* =====================
-     LOGIN VIEW
-  ===================== */
+  // =====================
+  // LOGIN SCREEN
+  // =====================
   if (!loggedIn) {
     return (
       <div className="admin-page">
@@ -134,15 +111,15 @@ function Admin() {
     );
   }
 
-  /* =====================
-     ADMIN PANEL
-  ===================== */
+  // =====================
+  // ADMIN PANEL
+  // =====================
   return (
     <div className="admin-page">
       <div className="admin-card">
         <h2>Admin Panel</h2>
 
-        <p className="current-file">
+        <p>
           <strong>Current Excel File:</strong> {currentFile}
         </p>
 
@@ -151,27 +128,20 @@ function Admin() {
             type="file"
             accept=".xlsx"
             onChange={(e) => setFile(e.target.files[0])}
-            disabled={uploading}
             required
           />
 
-          <button type="submit" disabled={uploading}>
-            {uploading ? (
-              <span className="loader"></span>
-            ) : (
-              "Upload New Excel"
-            )}
-          </button>
+          <button type="submit">Upload New Excel</button>
         </form>
 
-        {message && (
-          <p className={messageType === "success" ? "success" : "error"}>
-            {message}
-          </p>
-        )}
+        {message && <p className="success">{message}</p>}
       </div>
 
-      <button className="logout-btn" onClick={logout}>
+      {/* 🔴 LOGOUT BUTTON */}
+      <button
+        className="logout-btn"
+        onClick={logout}
+      >
         Logout
       </button>
     </div>

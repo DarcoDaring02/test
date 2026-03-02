@@ -25,7 +25,7 @@ function Team() {
     },
     {
       image: "/images/Chandrashekar.jpeg",
-      name: " Chandrashekar K",
+      name: "Dr. Chandrashekar K",
       linkedin: "https://www.linkedin.com/in/chandrashekar-karunakaran-achari",
     },
   ];

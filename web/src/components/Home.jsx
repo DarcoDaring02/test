@@ -4,8 +4,9 @@ import heroImg from "../assets/images/logo.png";
 function Hero() {
   return (
     <section className="hero" id="home">
-      <div className="hero-container">
 
+      {/* INTRODUCTION SECTION */}
+      <div className="hero-container">
         <div className="hero-top">
 
           {/* LEFT TEXT */}
@@ -35,6 +36,75 @@ function Hero() {
           </div>
 
         </div>
+      </div>
+
+      {/* SIGNIFICANCE SECTION */}
+      <div className="significance-container">
+
+        <div className="significance-header">
+          <h2>Significance</h2>
+          <p>
+            Understanding the breastmilk microbiome is fundamental to advancing
+            neonatal health research and clinical applications.
+          </p>
+        </div>
+
+        <p className="significance-text">
+          The breastmilk microbiome plays a significant role in early growth and
+          development by influencing immune maturation, gut colonization, and
+          metabolic regulation. Microbial-derived metabolites contribute to
+          neonatal health through the following mechanisms:
+        </p>
+
+        <div className="significance-features">
+          <div className="feature-card">
+            <span>🧬</span>
+            <h4>Gut Barrier Integrity</h4>
+            <p>
+              Supports intestinal maturation and strengthens epithelial defense
+              mechanisms.
+            </p>
+          </div>
+
+          <div className="feature-card">
+            <span>🛡️</span>
+            <h4>Immune Modulation</h4>
+            <p>
+              Guides immune system development and promotes immune tolerance.
+            </p>
+          </div>
+
+          <div className="feature-card">
+            <span>🦠</span>
+            <h4>Pathogen Defense</h4>
+            <p>
+              Suppresses pathogenic microbes while supporting beneficial species.
+            </p>
+          </div>
+
+          <div className="feature-card">
+            <span>⚙️</span>
+            <h4>Nutrient Metabolism</h4>
+            <p>
+              Enhances nutrient absorption and metabolic efficiency in infants.
+            </p>
+          </div>
+
+          <div className="feature-card">
+            <span>🧠</span>
+            <h4>Neurodevelopment</h4>
+            <p>
+              Influences brain development through microbe–metabolite signaling.
+            </p>
+          </div>
+        </div>
+
+        <p className="significance-footer">
+          This database provides a centralized platform for exploring the complex
+          relationships between breastmilk microbiota and their metabolic outputs,
+          supporting future research, clinical translation, and potential
+          probiotic or postbiotic interventions for neonatal health.
+        </p>
 
       </div>
     </section>
