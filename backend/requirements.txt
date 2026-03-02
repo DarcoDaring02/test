@@ -4,4 +4,3 @@ pandas
 supabase
 openpyxl
 gunicorn
-test
